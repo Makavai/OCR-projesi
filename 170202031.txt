@@ -1,0 +1,1092 @@
+/////////////////////////////setdp
+package yazlab1;
+
+import com.sun.image.codec.jpeg.JPEGCodec;
+import com.sun.image.codec.jpeg.JPEGEncodeParam;
+import com.sun.image.codec.jpeg.JPEGImageEncoder;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.stream.FileImageInputStream;
+
+/**
+ *
+ * @author Onur
+ */
+public class setdp {
+    public void setd(String a) throws IOException{
+        File infile = new File(a);
+        File outfile = new File(a);
+
+        ImageReader reader = ImageIO.getImageReadersByFormatName("jpeg").next();
+        reader.setInput(new FileImageInputStream(infile), true, false);
+        IIOMetadata data = reader.getImageMetadata(0);
+        BufferedImage image = reader.read(0);
+        
+        JPEGImageEncoder jpegEncoder = JPEGCodec.createJPEGEncoder(new FileOutputStream(outfile));
+        JPEGEncodeParam jpegEncodeParam = jpegEncoder.getDefaultJPEGEncodeParam(image);
+        jpegEncodeParam.setDensityUnit(JPEGEncodeParam.DENSITY_UNIT_DOTS_INCH);
+        jpegEncodeParam.setXDensity(300);
+        jpegEncodeParam.setYDensity(300);
+        jpegEncoder.encode(image, jpegEncodeParam);
+    }
+}
+
+/////////////////////////////dTest1
+package yazlab1;
+
+import java.awt.Graphics2D; 
+import net.sourceforge.tess4j.*; 
+import java.awt.Image; 
+import java.awt.image.*; 
+import java.io.*; 
+import java.util.ArrayList;
+import java.util.Vector;
+  
+import javax.imageio.ImageIO; 
+import javax.swing.ImageIcon;
+  
+public class dTes1 {    
+    static String ico1;
+    static String stra;
+    public dTes1(String a){
+        ico1=a;
+    }
+    
+    public static void
+    processImg(BufferedImage ipimage, 
+               float scaleFactor, 
+               float offset) 
+        throws IOException, TesseractException 
+    { 
+        // Making an empty image buffer 
+        // to store image later 
+        // ipimage is an image buffer 
+        // of input image 
+        setdp asdd=new setdp();
+        asdd.setd(ico1);
+        int ipw=ipimage.getWidth();
+        int iph=ipimage.getHeight();
+        if((ipw<2000||iph<2000)&&(ico1!="deneyelimm.jpg")){
+        ipw=ipimage.getWidth()*2;
+        iph=ipimage.getHeight()*2;}
+        BufferedImage opimage 
+            = new BufferedImage(ipw, 
+                                iph, 
+                                ipimage.getType()); 
+
+        // creating a 2D platform 
+        // on the buffer image 
+        // for drawing the new image 
+        Graphics2D graphic 
+            = opimage.createGraphics(); 
+  
+        // drawing new image starting from 0 0 
+        // of size 1050 x 1024 (zoomed images) 
+        // null is the ImageObserver class object 
+        graphic.drawImage(ipimage, 0, 0, 
+                          ipw,iph, null); 
+        graphic.dispose(); 
+  
+        // rescale OP object 
+        // for gray scaling images 
+        RescaleOp rescale 
+            = new RescaleOp(scaleFactor, offset, null); 
+  
+        // performing scaling 
+        // and writing on a .png file 
+        BufferedImage fopimage 
+            = rescale.filter(opimage, null);
+        String asd="fiþm2out.jpg";
+        if(ico1=="deneyelimm.jpg")
+            asd="denem.jpg";
+        asdd.setd(asd);
+        ImageIO 
+            .write(fopimage, 
+                   "jpg", 
+                   new File(asd)); 
+  
+        // Instantiating the Tesseract class 
+        // which is used to perform OCR 
+        Tesseract it = new Tesseract(); 
+  
+        it.setDatapath("A:\\Tess4J");
+        it.setLanguage("tur");
+        // doing OCR on the image 
+        // and storing result in string str 
+        if(ico1!="deneyelimm.jpg"){
+        String str = it.doOCR(fopimage);
+        stra=str;}
+        //System.out.println(str); 
+    } 
+  
+    public void main() throws Exception 
+    {    
+        File f 
+            = new File( 
+                ico1); 
+  
+        BufferedImage ipimage = ImageIO.read(f); 
+        // getting RGB content of the whole image file 
+        double d 
+            = ipimage 
+                  .getRGB(ipimage.getTileWidth() / 2, 
+                          ipimage.getTileHeight() / 2); 
+  
+        // comparing the values 
+        // and setting new scaling values 
+        // that are later on used by RescaleOP 
+        if (d >= -1.4211511E7 && d < -7254228) { 
+            processImg(ipimage, 3f, -10f); 
+        } 
+        else if (d >= -7254228 && d < -2171170) { 
+            processImg(ipimage, 1.455f, -47f); 
+        } 
+        else if (d >= -2171170 && d < -1907998) { 
+            processImg(ipimage, 1.35f, -10f); 
+        } 
+        else if (d >= -1907998 && d < -257) { 
+            processImg(ipimage, 1.19f, 0.5f); 
+        } 
+        else if (d >= -257 && d < -1) { 
+            processImg(ipimage, 1f, 0.5f); 
+        } 
+        else if (d >= -1 && d < 2) { 
+            processImg(ipimage, 1f, 0.35f); 
+        } 
+    }
+    
+    public String getString(){
+        return stra;
+    } 
+
+} 
+
+//////////////////////////////yazde
+package yazlab1;
+
+  
+public class yazde { 
+   public static void main( String[] args ) 
+   { 
+       Arayuz ara=new Arayuz(); 
+       ara.setVisible(true);
+   } 
+             
+} 
+
+//////////////////////////Arayuz
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package yazlab1;
+
+import java.awt.Image;
+import java.io.File;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.table.TableModel;
+import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
+
+/**
+ *
+ * @author Onur
+ */
+public class Arayuz extends javax.swing.JFrame {
+
+    /**
+     * Creates new form Arayuz
+     */
+    public Arayuz() {
+        initComponents();
+        tabdol("SELECT * FROM yazlab.isletme,yazlab.fis,yazlab.urun where isid=firid and fisid=fid;");
+        /*try {
+            Statement ifade=baglantý();
+            Statement if1=baglantý();
+            ResultSet rs=if1.executeQuery("SELECT * FROM yazlab.fis");
+            rs.next();
+            System.out.println(rs.getString("fisid"));
+        } catch (Exception ex) {
+            System.out.println("Hataaa");
+        }*/
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
+    private void initComponents() {
+
+        jButton1 = new javax.swing.JButton();
+        j1t1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tab = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        j1t2 = new javax.swing.JTextArea();
+        ta1 = new javax.swing.JTextField();
+        ta2 = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTextPane3 = new javax.swing.JTextPane();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jButton1.setText("Ekle");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        j1t1.setText("Resim dosyasýný giriniz.");
+
+        jTextPane1.setEditable(false);
+        jTextPane1.setBackground(new java.awt.Color(240, 240, 240));
+        jTextPane1.setBorder(null);
+        jTextPane1.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jTextPane1.setText("Tüm Bilgiler");
+        jTextPane1.setAutoscrolls(false);
+        jScrollPane2.setViewportView(jTextPane1);
+
+        tab.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {"", null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "Isletme Adi", "Tarih", "Fis No", "Urun Adi", "Urun Kdv", "Urun Fiyat", "Toplam"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tab.setRowHeight(20);
+        jScrollPane1.setViewportView(tab);
+        if (tab.getColumnModel().getColumnCount() > 0) {
+            tab.getColumnModel().getColumn(0).setPreferredWidth(100);
+            tab.getColumnModel().getColumn(1).setPreferredWidth(30);
+            tab.getColumnModel().getColumn(2).setPreferredWidth(25);
+            tab.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tab.getColumnModel().getColumn(4).setPreferredWidth(25);
+            tab.getColumnModel().getColumn(5).setPreferredWidth(30);
+            tab.getColumnModel().getColumn(6).setPreferredWidth(30);
+        }
+
+        j1t2.setColumns(20);
+        j1t2.setRows(5);
+        jScrollPane3.setViewportView(j1t2);
+
+        ta2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ta2ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Ara");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTextPane2.setEditable(false);
+        jTextPane2.setBackground(new java.awt.Color(240, 240, 240));
+        jTextPane2.setBorder(null);
+        jTextPane2.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jTextPane2.setText("Ýþletme Adý");
+        jTextPane2.setAutoscrolls(false);
+        jScrollPane4.setViewportView(jTextPane2);
+
+        jTextPane3.setEditable(false);
+        jTextPane3.setBackground(new java.awt.Color(240, 240, 240));
+        jTextPane3.setBorder(null);
+        jTextPane3.setFont(new java.awt.Font("Tahoma", 0, 15)); // NOI18N
+        jTextPane3.setText("Tarih");
+        jTextPane3.setAutoscrolls(false);
+        jScrollPane5.setViewportView(jTextPane3);
+
+        jButton3.setText("Verileri Tabloya Kaydet");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Ýþletme Adýna Göre Sýrala");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Tarihe Göre Sýrala");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(41, 41, 41)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(ta1)
+                            .addComponent(ta2)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 874, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(j1t1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 195, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(j1t1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ta1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(ta2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jButton4)
+                        .addComponent(jButton5)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(29, Short.MAX_VALUE))
+        );
+
+        pack();
+    }// </editor-fold>                        
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        j1t2.setText("");
+        JLabel picture1;
+        picture1=jLabel1;
+            ImageIcon ico;
+            ico = new ImageIcon(j1t1.getText());
+            /*try{
+                Mat source = Imgcodecs.imread(j1t1.getText());
+            }catch(Exception e){
+                System.out.println(e.getMessage());
+            }*/
+            filtre fi=new filtre();
+            fi.filt(j1t1.getText());
+            if(fi.getTees()==1){
+                fi.setTees(0); j1t1.setText("DOSYA BULUNAMADI");
+                return; 
+            }
+            dTes1 tes=new dTes1("output.jpg"); 
+        try {
+            tes.main();
+        } catch (Exception ex) { 
+            Logger.getLogger(Arayuz.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+            ico=new ImageIcon(ico.getImage().getScaledInstance(300,300, Image.SCALE_DEFAULT));
+            picture1.setIcon(ico);
+            picture1.setSize(300,300);
+            picture1.setLocation(50,50);
+            //System.out.println(tes.getString());
+            String aray=tes.getString();
+                //j1t2.setText(aray);
+            regex re=new regex();
+            re.set();
+            re.bol(aray);
+            System.out.println(aray);
+                j1t2.setText(j1t2.getText()+re.getIsletme()+"\n");//data.add(re.getIsletme());
+                j1t2.setText(j1t2.getText()+re.getTarih()+"\n"); //data.add(re.getTarih());
+                j1t2.setText(j1t2.getText()+re.getFisno()+"\n");
+                int siz=re.getUrkdv().size();
+                for(int i=0;i<siz;i++){
+                j1t2.setText(j1t2.getText()+re.getUrun().get(i)+"\t");
+                j1t2.setText(j1t2.getText()+re.getUrkdv().get(i)+"\t");
+                j1t2.setText(j1t2.getText()+re.getUrfi().get(i)+"\n");
+                }
+                j1t2.setText(j1t2.getText()+re.getToplam()); //int l=0;
+                /*String s=j1t2.getText(); String a="";
+                for(int l=0;l<s.length()-1;l++){
+                    a=a+s.toCharArray()[l];
+                    if(s.toCharArray()[l+1]=='\n'){l++;
+                        data.add(a);
+                        ;a="";
+                }
+                    if(l+1==s.length()-1) data.add(a);
+                }*/
+            tabdol("SELECT * FROM yazlab.isletme,yazlab.fis,yazlab.urun where isid=firid and fisid=fid;");
+            setVisible(true);
+            File f=new File("output.jpg");
+            
+    }                                        
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        tabsif();
+        tabdol("SELECT * FROM yazlab.isletme,yazlab.fis,yazlab.urun where isid=firid and fisid=fid and (isad = '"+ta1.getText()+"' or '"+ta1.getText()+"' = '') and (fistar = '"+ta2.getText()+"' or '"+ta2.getText()+"' = '')");
+        
+        
+        
+        
+        
+    }                                        
+
+    private void ta2ActionPerformed(java.awt.event.ActionEvent evt) {                                    
+        // TODO add your handling code here:
+    }                                   
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        //VERÝTABANINA VERÝLERÝ KAYDETTT
+        ArrayList<String> data=new ArrayList();
+        String s=j1t2.getText(); String a="";
+        j1t2.setText("");
+        for(int l=0;l<s.length()-1;l++){
+            a=a+s.toCharArray()[l];
+            if(s.toCharArray()[l+1]=='\n'){l++;
+                data.add(a);
+                ;a="";
+            }
+            if(l+1==s.length()-1) data.add(a);
+        }
+        if(data.size()>4){
+            try {
+                Statement ifade=baglantý(); Statement if1=baglantý();
+                
+                String query="SELECT * FROM yazlab.isletme where isad='"+data.get(0)+"';";
+                ResultSet res=ifade.executeQuery(query);int idk=0;
+                if(res.next()){
+                    idk=res.getInt("isid");
+                }
+                if(idk==0){
+                    Statement if2=baglantý();
+                ResultSet rs=if1.executeQuery("SELECT isid FROM yazlab.isletme;");
+                while(rs.next())
+                idk=rs.getInt("isid");   idk++;
+                query="INSERT INTO `yazlab`.`isletme` (`isid`, `isad`) VALUES ('"+idk+"', '"+data.get(0)+"');";
+                if2.executeUpdate(query);}
+                
+                query="SELECT * FROM yazlab.fis where firid="+idk+" and fistar='"+data.get(1)+"' and fisno ='"+data.get(2)+"';";
+                Statement ifa=baglantý();
+                ResultSet rsa=ifa.executeQuery(query);
+                if(rsa.next())  return;
+                
+                Statement if3=baglantý();
+                ResultSet rsf=if3.executeQuery(" SELECT fisid FROM yazlab.fis;");int fid=0;
+                while(rsf.next())
+                fid=rsf.getInt("fisid");   fid++;
+                query="INSERT INTO `yazlab`.`fis` (`fisid`, `firid`, `fistar`, `fisno`, `topfi`) VALUES ('"+fid+"', '"+idk+"', '"+data.get(1)+"', '"+data.get(2)+"', '"+data.get(data.size()-1)+"');";
+                Statement if4=baglantý(); if4.executeUpdate(query);
+                
+                for(int i=3;i<data.size()-1;i++){
+                Statement if5=baglantý();
+                ResultSet rsu=if5.executeQuery("SELECT urid FROM yazlab.urun;");int uid=0;
+                while(rsu.next()) uid=rsu.getInt("urid"); uid++;
+                ArrayList<String> as=new ArrayList();
+                String aaa=data.get(i); System.out.println(aaa); String o="";
+                for(int p=0;p<aaa.length()-1;p++){ 
+                    o=o+aaa.toCharArray()[p];
+                    if(aaa.toCharArray()[p+1]=='\t'){p++;
+                    as.add(o); System.out.println(o);
+                    o="";
+                    }
+                    if(p+1==aaa.length()-1) as.add(o);
+                }
+                query="INSERT INTO `yazlab`.`urun` (`urid`, `fid`, `urad`, `urkdv`, `urfi`) VALUES ('"+uid+"', '"+fid+"', '"+as.get(0)+"', '"+as.get(1)+"', '"+as.get(2)+"');";    
+                Statement if6=baglantý(); if6.executeUpdate(query);
+                
+                }
+                
+                /*String query2="INSERT INTO `proje`.`hamstok` (`hamname`, `maliyet`, `adet`, `urettar`, `rafomru`) VALUES ('"+rs.getString("hamname")+"', '"+(rs.getDouble("fiyat")*mik+asd)+"', '"+mik+"', '"+rs.getString("urettar")+"', '"+rs.getInt("rafomru")+"');";
+                
+                if(res.next())
+                query2="UPDATE `proje`.`hamstok` SET `maliyet` = "+(res.getDouble("maliyet")+(rs.getDouble("fiyat")*mik+asd))+",`adet` = "+(mik+res.getInt("adet"))+" WHERE (`hamname` = '"+rs.getString("hamname")+"') and (`rafomru` = '"+rs.getInt("rafomru")+"') and (`urettar` = '"+rs.getString("urettar")+"');";
+                ifade.executeUpdate(query1);
+                ifade.executeUpdate(query2);*/
+            } catch (Exception ex) {
+                Logger.getLogger(Arayuz.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+        }
+        
+        tabdol("SELECT * FROM yazlab.isletme,yazlab.fis,yazlab.urun where isid=firid and fisid=fid;");
+        setVisible(true);
+        
+        
+    }                                        
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        tabdol("SELECT * FROM yazlab.isletme,yazlab.fis,yazlab.urun where isid=firid and fisid=fid ORDER BY isad;");
+        
+        
+    }                                        
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {                                         
+        tabdol("SELECT * FROM yazlab.isletme,yazlab.fis,yazlab.urun where isid=firid and fisid=fid order by fistar desc;");
+    }                                        
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Arayuz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Arayuz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Arayuz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Arayuz.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Arayuz().setVisible(true);
+            }
+        });
+    }
+    
+    private Connection conn=null;
+    public Statement baglantý()throws Exception{
+        conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/proje?useUnicode=true&useLegacyDatetimeCode=false&serverTimezone=Turkey", "root", "1234");
+        return conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+    }
+    
+    /*public String gets(){
+        
+    }*/
+    
+    public void tabsif(){
+        int say1=0;
+            TableModel model= tab.getModel();
+            while(say1<tab.getRowCount())
+            {
+            for(int say2=0;say2<7;say2++)    
+            model.setValueAt("",say1,say2);
+                
+                say1++;
+            }
+    }
+    public void tabdol(String a){
+        
+        try {
+            Statement ifade= baglantý();
+            String query=a;
+            ResultSet rs=ifade.executeQuery(query);
+            int say1=0; String topfi=""; int fiid=0;
+            while(rs.next())
+            { int say2=0;
+                TableModel model= tab.getModel();
+                model.setValueAt(rs.getString("isad"),say1,say2); say2++;
+                model.setValueAt(rs.getString("fistar"),say1,say2); say2++;
+                model.setValueAt(rs.getString("fisno"),say1,say2); say2++;
+                model.setValueAt(rs.getString("urad"),say1,say2); say2++;
+                model.setValueAt(rs.getString("urkdv"),say1,say2); say2++;
+                model.setValueAt(rs.getString("urfi"),say1,say2); say2++;
+                if(topfi!=rs.getString("topfi")&&fiid!=rs.getInt("fisid")){
+                model.setValueAt(rs.getString("topfi"),say1,say2); say2++;
+                topfi=rs.getString("topfi");
+                fiid=rs.getInt("fisid");
+                }
+                say1++;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Arayuz.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    
+    
+    // Variables declaration - do not modify                     
+    private javax.swing.JTextField j1t1;
+    private javax.swing.JTextArea j1t2;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JTextPane jTextPane3;
+    private javax.swing.JTextField ta1;
+    private javax.swing.JTextField ta2;
+    private javax.swing.JTable tab;
+    // End of variables declaration                   
+}
+
+//////////////////////////filtre
+
+package yazlab1;
+
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import org.opencv.core.Core;
+import org.opencv.core.CvType;
+import org.opencv.core.Mat;
+import org.opencv.core.Point;
+import org.opencv.core.Rect;
+import org.opencv.core.Size;
+import org.opencv.imgcodecs.Imgcodecs;
+import org.opencv.imgproc.Imgproc;
+
+public class filtre {
+   
+    static int tees=0;
+    public void filt(String a){
+        try {   
+             System.loadLibrary( Core.NATIVE_LIBRARY_NAME );
+            String image=a;Mat imgTh=new Mat();
+            setdp asd=new setdp();//Sadece Tesseracta gönderirken yapacaðýz
+            asd.setd(image);
+            Mat source = Imgcodecs.imread(image); 
+            Mat imgGray = new Mat(); 
+            Imgproc.cvtColor(source,imgGray , Imgproc.COLOR_BGR2GRAY); 
+            Imgcodecs.imwrite("outgray.jpg", imgGray);
+            Mat dest = new Mat(imgGray.rows(),imgGray.cols(),imgGray.type());
+            Imgproc.GaussianBlur(imgGray, dest, new Size(0,0), 1);
+            Mat imgbi=new Mat();
+            Imgproc.adaptiveThreshold(imgGray, imgbi,255,Imgproc.ADAPTIVE_THRESH_GAUSSIAN_C, Imgproc.THRESH_BINARY,99,4);
+            Imgproc.threshold(imgGray, imgTh, 255,Imgproc.THRESH_BINARY+Imgproc.THRESH_OTSU,11);
+            Mat kernel = Mat.ones(5,5, CvType.CV_32F);
+            Imgproc.morphologyEx(imgbi, imgbi, Imgproc.MORPH_ELLIPSE, kernel);
+            Imgcodecs.imwrite("outputbinary.jpg", imgbi);
+            
+            BufferedImage buimg = ImageIO.read(new File("outputbinary.jpg"));
+            BufferedImage bu = ImageIO.read(new File(image));
+            int px=buimg.getHeight()*buimg.getWidth(); int rp=0;
+            for(int i=0;i<buimg.getHeight();i++){
+                for(int j=0;j<buimg.getWidth();j++){
+                    int clr=buimg.getRGB(j,i);
+                    int  blue  =  clr & 0x000000ff;
+                    rp=rp+blue;
+                }
+            }
+            
+            int pxb=bu.getHeight()*bu.getWidth(); int rpb=0;
+            for(int i=0;i<bu.getHeight();i++){
+                for(int j=0;j<bu.getWidth();j++){
+                    int clr=bu.getRGB(j,i);
+                    int  blue  =  clr & 0x000000ff;
+                    rpb=rpb+blue;
+                }
+            }
+            
+            System.out.println("::::::"+(rp/px));
+            for(int i=0;i<buimg.getHeight();i++){
+                for(int j=0;j<buimg.getWidth();j++){
+                    int clr=buimg.getRGB(j,i);
+                    int  blue  =  clr & 0x000000ff;
+                    if(blue>(rp/px)){
+                    buimg.setRGB(j,i,Color.WHITE.getRGB());
+                    }
+                }
+            }
+            for(int i=0;i<bu.getHeight();i++){
+                for(int j=0;j<bu.getWidth();j++){
+                    int clr=bu.getRGB(j,i);
+                    int  blue  =  clr & 0x000000ff;
+                    int ss=(rpb/pxb);// if(ss>100)ss=130;
+                    if(blue>ss){
+                    bu.setRGB(j,i,Color.WHITE.getRGB());
+                    }
+                }
+            }
+            int x1=-1,x2=-1,y1=-1,y2=-1; int cot=0;
+            for(int i=0;i<buimg.getHeight();i++){int cont1=0;
+                for(int j=0;j<buimg.getWidth();j++){
+                    
+                    int clr=buimg.getRGB(j,i);
+                    int  blue  =  clr & 0x000000ff;//255 beyaz
+                    if(blue>225){
+                        cont1++;
+                        if(cont1>cot){cot=cont1;
+                            if(cont1==1){       }
+                            else {  x2=j;    y2=i; y1=i;   x1=x2-cont1+1;  }
+                        }
+                    }else cont1=0;
+                }
+            }
+            //System.out.println(x1+","+y1+"  "+x2+","+y2);
+            ImageIO.write(bu, "jpg",  new File("deneyelim.jpg")); 
+                System.out.println(x1+",  "+x2+"   ,  "+source.width());
+            if(x1!=-1&&x2!=-1&&y1!=-1&&y2!=-1&&(x2+1!=source.width())){ 
+            Rect dikdortgen=new Rect(new Point(x1,0),new Point(x2,source.height()));
+            Mat yeni=new Mat(source,dikdortgen);
+            Imgcodecs.imwrite("y"+image, yeni);
+            filt("y"+image); return;
+            }
+            Imgcodecs.imwrite("output.jpg", imgTh);
+            /*if(tees==0){ tees++;
+            dTes1 tes=new dTes1("deneyelimm.jpg");
+            tes.main(); 
+            filt("denem.jpg");
+            }
+            tees=0;*/
+          
+        
+        }catch (Exception e) { tees=1;
+            System.err.println(e.getMessage());
+           
+        }
+    }
+
+    public static int getTees() {
+        return tees;
+    }
+
+    public static void setTees(int tees) {
+        filtre.tees = tees;
+    }
+    
+}
+
+/////////////////////regex
+
+package yazlab1;
+
+import java.util.ArrayList;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
+public class regex {
+    static String isletme;
+    static String tarih;
+    static String fisno;
+    static ArrayList<String> urun=new ArrayList();
+    static ArrayList<String> urkdv=new ArrayList();
+    static ArrayList<String> urfi=new ArrayList();
+    static String toplam;
+    public void bol(String stt) {
+        ArrayList<String> stra=new ArrayList();
+        //for(int k=0;k<stt.length();k++){}
+            Pattern pal = Pattern.compile("(\\n)");    
+            Matcher mal = pal.matcher(stt);boolean fou = false;  int k=0; String aa=""; int ko=0;
+            while (mal.find()) {
+                if(ko==0){
+                    k=mal.end(); ko++; 
+                for(int l=0;l<mal.start();l++){
+                    aa=aa+stt.toCharArray()[l];
+                }
+                stra.add(aa);   aa="";
+                }
+                while(k<mal.start()){
+                    aa=aa+stt.toCharArray()[k];
+                    k++;
+                }
+                stra.add(aa);
+                k=mal.end();aa="";
+                fou = true;    
+            if(!fou){        }}
+        //System.out.println(stt);
+            int isl=0;
+            for(int i=0;i<2;i++){
+                Pattern pattern = Pattern.compile("A.S");    
+                Matcher matcher = pattern.matcher(stra.get(i));
+                boolean found = false;    
+            while (matcher.find()) {  isl=i; 
+                found = true; 
+            }    
+            if(!found){      }  }
+            isletme=stra.get(isl);
+        //System.out.println(isletme);
+            int tarai=3;
+            for(int i=2;i<stra.size();i++) {
+            stra.set(i,stra.get(i).replace('?', '7'));
+            Pattern pattern = Pattern.compile("(\\d)(\\d)(.)(\\d)(\\d)(.)(\\d)(\\d)(\\d)(\\d)");    
+            Matcher matcher = pattern.matcher(stra.get(i));    
+            boolean found = false;    
+            while (matcher.find()) {
+                if(matcher.group().toCharArray()[2]==matcher.group().toCharArray()[5]){
+                    char u=matcher.group().toCharArray()[2];
+                  tarih=  matcher.group().replace(u,'/');
+                //tarih=matcher.group();
+                tarai=i;
+                found = true;    }
+            }    
+            if(!found){        }}
+        //System.out.println(tarih);
+            for(int i=tarai-1;i<tarai+4;i++){ stra.set(i,stra.get(i).replace('?', '7')); stra.set(i,stra.get(i).replace('$', 'þ'));
+                Pattern pattern = Pattern.compile("[Ff]{1}[1lNýInÝiOoÞþSs\\s]{3}");    
+                Matcher matcher = pattern.matcher(stra.get(i));
+                boolean found = false;    
+            while (matcher.find()) { int fb=matcher.start();
+                Pattern pat = Pattern.compile("(\\d+)");
+                String st=stra.get(i);
+                String a="";
+                for(int j=matcher.start();j<st.length();j++){
+                    a=a+st.toCharArray()[j];
+                }
+                Matcher mat = pat.matcher(a);
+                while(mat.find())  fisno=mat.group();
+                found = true; 
+            }    
+            if(!found){      }  }
+        //System.out.println(fisno);
+            int tut=0;
+            for(int i=tarai;i<stra.size();i++) {
+            stra.set(i,stra.get(i).replace('?', '7'));
+            Pattern pattern = Pattern.compile("%");    
+            Matcher matcher = pattern.matcher(stra.get(i));    
+            boolean found = false;
+            while (matcher.find()) {int kt=0;
+                String a="";    String st=stra.get(i);
+                /*for(int t=0;t<st.length();t++){
+                    if(st.toCharArray()[t]=='*') kt=1;
+                    //Pattern ptt = Pattern.compile("");    
+                    //Matcher mtt = ptt.matcher(stra.get(i));
+                }
+                if(kt==0) continue;*/
+                for(int j=0;j<matcher.start();j++)
+                    a=a+st.toCharArray()[j];
+                urun.add(a);a="";
+                for(int j=matcher.start()+1;j<matcher.start()+4;j++)
+                    a=a+st.toCharArray()[j];
+                urkdv.add(a); a="";
+                for(int j=matcher.start()+5;j<st.length();j++)
+                    a=a+st.toCharArray()[j]; 
+                a=  a.replace('*',' ');
+                urfi.add(a);
+                found = true;    tut=i;
+            }    
+            if(!found){        }}int þ=1;
+        ///System.out.println(urun.get(þ)+" "+urkdv.get(þ)+" "+urfi.get(þ));
+            int ttt=stra.size()-tut;
+            for(int i=tut;i<tut+ttt;i++) {
+            stra.set(i,stra.get(i).replace('?', '7'));
+            Pattern pattern = Pattern.compile("[T]{1}[oOPLAMRHplam\\s]{6}");    
+            Matcher matcher = pattern.matcher(stra.get(i));    
+            boolean found = false;
+            while (matcher.find()) {
+                String st=stra.get(i); String a="";
+                for(int j=matcher.end();j<st.length();j++)
+                    a=a+st.toCharArray()[j];
+                    a=a.trim(); 
+                    a=a.replace('*',' ');
+                    toplam=a;
+            }
+            if(!found){        }    }
+        //System.out.println(toplam);
+    }
+    
+    public static void set(){
+        urun.clear();
+        urkdv.clear();
+        urfi.clear();
+    }
+    
+    public static String getIsletme() {
+        return isletme;
+    }
+
+    public static String getTarih() {
+        return tarih;
+    }
+
+    public static String getFisno() {
+        return fisno;
+    }
+
+    public static ArrayList<String> getUrun() {
+        return urun;
+    }
+
+    public static ArrayList<String> getUrkdv() {
+        return urkdv;
+    }
+
+    public static ArrayList<String> getUrfi() {
+        return urfi;
+    }
+
+    public static String getToplam() {
+        return toplam;
+    }
+}
